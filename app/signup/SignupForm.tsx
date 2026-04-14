@@ -12,24 +12,33 @@ export default function SignupForm() {
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [company, setCompany] = useState('')
+  const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
 
+  const passwordMismatch = confirmPassword.length > 0 && password !== confirmPassword
+
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.')
+      return
+    }
     setLoading(true)
     setError(null)
 
     const supabase = createClient()
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
         data: {
           full_name: fullName,
           company,
+          phone,
         },
       },
     })
@@ -37,20 +46,30 @@ export default function SignupForm() {
     if (error) {
       setError(error.message)
       setLoading(false)
-    } else {
-      // If email confirmation is disabled, redirect to dashboard
-      // Otherwise show success message
-      setSuccess(true)
-      setLoading(false)
-      setTimeout(() => router.push('/dashboard'), 1500)
+      return
     }
+
+    // Upsert profile row (the DB trigger also handles this; this is a fallback)
+    if (data.user) {
+      await supabase.from('profiles').upsert({
+        id: data.user.id,
+        full_name: fullName,
+        email,
+        company: company || null,
+        phone: phone || null,
+      })
+    }
+
+    setSuccess(true)
+    setLoading(false)
+    setTimeout(() => router.push('/dashboard'), 1500)
   }
 
-  const handleGoogleLogin = async () => {
+  const handleGoogleSignup = async () => {
     const supabase = createClient()
     await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: `${window.location.origin}/dashboard` },
+      options: { redirectTo: `${window.location.origin}/auth/callback` },
     })
   }
 
@@ -60,9 +79,9 @@ export default function SignupForm() {
         <Image
           src="/brand_logo_page/Brand LOGO.jpg"
           alt="Operra"
-          width={80}
-          height={80}
-          style={{ height: 80, width: 'auto', objectFit: 'contain' }}
+          width={72}
+          height={72}
+          style={{ height: 72, width: 'auto', objectFit: 'contain' }}
         />
       </div>
 
@@ -90,6 +109,7 @@ export default function SignupForm() {
               autoComplete="name"
             />
           </div>
+
           <div className={styles.formGroup}>
             <label htmlFor="email">Work email</label>
             <input
@@ -102,9 +122,10 @@ export default function SignupForm() {
               autoComplete="email"
             />
           </div>
+
           <div className={styles.formGroup}>
             <label htmlFor="company">
-              Company <span className={styles.optional}>optional</span>
+              Company name <span className={styles.optional}>optional</span>
             </label>
             <input
               id="company"
@@ -115,6 +136,21 @@ export default function SignupForm() {
               autoComplete="organization"
             />
           </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="phone">
+              Phone number <span className={styles.optional}>optional</span>
+            </label>
+            <input
+              id="phone"
+              type="tel"
+              placeholder="+1 555 000 0000"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              autoComplete="tel"
+            />
+          </div>
+
           <div className={styles.formGroup}>
             <label htmlFor="password">Password</label>
             <input
@@ -129,9 +165,29 @@ export default function SignupForm() {
             />
           </div>
 
+          <div className={styles.formGroup}>
+            <label htmlFor="confirmPassword">Confirm password</label>
+            <input
+              id="confirmPassword"
+              type="password"
+              placeholder="Re-enter your password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              autoComplete="new-password"
+            />
+            {passwordMismatch && (
+              <p className={styles.hintMsg}>Passwords do not match</p>
+            )}
+          </div>
+
           {error && <p className={styles.errorMsg}>{error}</p>}
 
-          <button type="submit" className={styles.btnSubmit} disabled={loading}>
+          <button
+            type="submit"
+            className={styles.btnSubmit}
+            disabled={loading || passwordMismatch}
+          >
             {loading ? 'Creating account…' : 'Create free account'}
           </button>
         </form>
@@ -139,7 +195,7 @@ export default function SignupForm() {
 
       <div className={styles.divider}>or</div>
 
-      <button type="button" className={styles.btnGoogle} onClick={handleGoogleLogin}>
+      <button type="button" className={styles.btnGoogle} onClick={handleGoogleSignup}>
         <GoogleIcon />
         Continue with Google
       </button>

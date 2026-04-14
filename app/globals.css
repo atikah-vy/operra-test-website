@@ -54,7 +54,10 @@ body {
 /* ── AUTH PAGE WRAPPER ── */
 .auth-page {
   min-height: 100vh;
-  background: #F1F5F9;
+  background:
+    radial-gradient(ellipse at 60% 10%, #1E3A8A 0%, transparent 55%),
+    radial-gradient(ellipse at 20% 80%, #1e3057 0%, transparent 50%),
+    #0B1F3A;
   display: flex;
   align-items: center;
   justify-content: center;

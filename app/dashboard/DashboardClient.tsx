@@ -6,17 +6,31 @@ import type { User } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase/client'
 import styles from './dashboard.module.css'
 
-interface Props {
-  user: User
+interface Profile {
+  full_name: string | null
+  email: string | null
+  company: string | null
+  phone: string | null
 }
 
-export default function DashboardClient({ user }: Props) {
+interface Props {
+  user: User
+  profile: Profile | null
+}
+
+export default function DashboardClient({ user, profile }: Props) {
   const router = useRouter()
 
   const displayName =
+    profile?.full_name ||
     user.user_metadata?.full_name ||
     user.email?.split('@')[0] ||
     'there'
+
+  const companyName =
+    profile?.company ||
+    user.user_metadata?.company ||
+    null
 
   const handleSignOut = async () => {
     const supabase = createClient()
@@ -59,7 +73,11 @@ export default function DashboardClient({ user }: Props) {
               Welcome back, <span>{displayName}</span> 👋
             </h1>
             <p className={styles.welcomeSub}>
-              Here&apos;s what&apos;s happening across your business today.
+              {companyName ? (
+                <>{companyName} &mdash; here&apos;s what&apos;s happening across your business today.</>
+              ) : (
+                <>Here&apos;s what&apos;s happening across your business today.</>
+              )}
             </p>
           </div>
 

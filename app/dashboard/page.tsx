@@ -8,5 +8,11 @@ export default async function DashboardPage() {
 
   if (!user) redirect('/login')
 
-  return <DashboardClient user={user} />
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('full_name, email, company, phone')
+    .eq('id', user.id)
+    .single()
+
+  return <DashboardClient user={user} profile={profile} />
 }
