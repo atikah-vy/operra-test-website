@@ -1,0 +1,130 @@
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+}
+
+.navInner {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navLogo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+}
+
+.navLinks a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color var(--transition);
+}
+
+.navLinks a:hover { color: var(--text-primary); }
+
+.navCta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* ── HAMBURGER ── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition);
+}
+
+.hamburger:hover { background: var(--bg-subtle); }
+
+.hamburger span {
+  display: block;
+  height: 2px;
+  background: var(--brand-primary);
+  border-radius: 2px;
+  transition: all .25s cubic-bezier(.4,0,.2,1);
+}
+
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── MOBILE MENU ── */
+.mobileMenu {
+  display: none;
+  position: fixed;
+  top: 64px; left: 0; right: 0; bottom: 0;
+  background: #fff;
+  z-index: 99;
+  padding: 1.5rem;
+  flex-direction: column;
+  gap: 0.25rem;
+  overflow-y: auto;
+  border-top: 1px solid var(--border);
+}
+
+.mobileMenuOpen { display: flex; }
+
+.mobileLink {
+  display: block;
+  padding: 0.875rem 1rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition);
+}
+
+.mobileLink:hover { background: var(--bg-subtle); }
+
+.mobileDivider {
+  height: 1px;
+  background: var(--border);
+  margin: 0.75rem 0;
+}
+
+.mobileMenu .btn {
+  width: 100%;
+  justify-content: center;
+  margin-top: 0.25rem;
+  padding: 0.875rem;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+  .navLinks { display: none; }
+  .navCta { display: none; }
+  .hamburger { display: flex; }
+}

@@ -1,6 +1,9 @@
 node_modules/
 .DS_Store
 .env
+.env.local
 .tmp/
 .claude/
 *.png
+.next/
+next-env.d.ts
