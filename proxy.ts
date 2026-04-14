@@ -1,7 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-export async function middleware(request: NextRequest) {
+export default async function proxy(request: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
@@ -18,11 +18,8 @@ export async function middleware(request: NextRequest) {
         return request.cookies.getAll()
       },
       setAll(cookiesToSet, headers) {
-        // Write cookies onto the forwarded request first
         cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
-        // Rebuild the response so it carries the updated request cookies
         supabaseResponse = NextResponse.next({ request })
-        // Stamp each cookie onto the outgoing response
         cookiesToSet.forEach(({ name, value, options }) =>
           supabaseResponse.cookies.set(name, value, options)
         )
@@ -34,8 +31,7 @@ export async function middleware(request: NextRequest) {
     },
   })
 
-  // IMPORTANT: use getUser() not getSession() — getUser() validates the token
-  // server-side and is safe for authorization decisions.
+  // getUser() validates the token server-side — safe for authorization decisions
   const {
     data: { user },
   } = await supabase.auth.getUser()
