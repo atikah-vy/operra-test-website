@@ -1,0 +1,11 @@
+{
+  "name": "@operra/tailwind-config",
+  "version": "0.0.0",
+  "private": true,
+  "main": "index.ts",
+  "files": ["index.ts"],
+  "devDependencies": {
+    "tailwindcss": "^3.4.14",
+    "tailwindcss-animate": "^1.0.7"
+  }
+}

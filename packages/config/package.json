@@ -1,0 +1,21 @@
+{
+  "name": "@operra/config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./env": "./src/env.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "echo ok",
+    "clean": "rm -rf .turbo"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@operra/tsconfig": "workspace:*",
+    "typescript": "^5.6.3"
+  }
+}

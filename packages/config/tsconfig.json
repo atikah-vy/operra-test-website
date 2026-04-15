@@ -1,0 +1,5 @@
+{
+  "extends": "@operra/tsconfig/library.json",
+  "compilerOptions": { "noEmit": true, "jsx": "preserve" },
+  "include": ["src"]
+}

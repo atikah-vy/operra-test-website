@@ -1,0 +1,8 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "pnpm turbo build --filter=@operra/web...",
+  "installCommand": "pnpm install --frozen-lockfile",
+  "ignoreCommand": "npx turbo-ignore @operra/web",
+  "framework": "nextjs",
+  "outputDirectory": "apps/web/.next"
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": [".env", ".env.local"],
+  "globalEnv": [
+    "NODE_ENV",
+    "NEXT_PUBLIC_APP_URL",
+    "NEXT_PUBLIC_API_BASE_URL",
+    "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
+    "NEXT_PUBLIC_CLERK_SIGN_IN_URL",
+    "NEXT_PUBLIC_CLERK_SIGN_UP_URL",
+    "CLERK_SECRET_KEY",
+    "API_BASE_URL"
+  ],
+  "tasks": {
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+    },
+    "lint": {
+      "dependsOn": ["^lint"]
+    },
+    "typecheck": {
+      "dependsOn": ["^typecheck"]
+    },
+    "clean": {
+      "cache": false
+    }
+  }
+}

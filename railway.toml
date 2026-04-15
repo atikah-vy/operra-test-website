@@ -1,0 +1,15 @@
+# Railway config for the FastAPI + ARQ worker services.
+# One service per [[services]] block.
+
+[build]
+  builder = "DOCKERFILE"
+  dockerfilePath = "apps/api/Dockerfile"
+
+[deploy]
+  startCommand = "uv run uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+  healthcheckPath = "/healthz"
+  healthcheckTimeout = 30
+  restartPolicyType = "ON_FAILURE"
+
+# To add the worker: create a second Railway service using the same Dockerfile,
+# override the start command to: `uv run arq app.jobs.worker.WorkerSettings`
