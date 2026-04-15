@@ -99,8 +99,9 @@ export default function SignupForm() {
           </div>
 
           <h1 className={styles.authLeftHeading}>
-            Join 8,400+<br />
-            <span>growing teams.</span>
+            Welcome!<br />
+            <span>Start building</span><br />
+            for free.
           </h1>
 
           <p className={styles.authLeftSub}>
@@ -260,7 +261,7 @@ export default function SignupForm() {
                 className={styles.btnSubmit}
                 disabled={loading || passwordMismatch}
               >
-                {loading ? 'Creating account…' : 'Create free account →'}
+                {loading ? 'Creating account…' : 'Create free account'}
               </button>
             </form>
           )}

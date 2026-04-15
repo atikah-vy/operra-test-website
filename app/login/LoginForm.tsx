@@ -52,9 +52,9 @@ export default function LoginForm() {
           <Image
             src="/brand_logo_page/Brand LOGO.jpg"
             alt="Operra"
-            width={40}
-            height={40}
-            style={{ height: 40, width: 'auto', objectFit: 'contain', borderRadius: 8 }}
+            width={38}
+            height={38}
+            style={{ height: 38, width: 'auto', objectFit: 'contain', borderRadius: 8 }}
           />
           <span className={styles.authLeftBrand}>Operra</span>
         </div>
@@ -66,13 +66,14 @@ export default function LoginForm() {
           </div>
 
           <h1 className={styles.authLeftHeading}>
-            Your business,<br />
-            <span>one system.</span>
+            Welcome!<br />
+            <span>Build, manage,</span><br />
+            and grow.
           </h1>
 
           <p className={styles.authLeftSub}>
-            CRM, tasks, invoicing, and analytics — unified from day one.
-            Everything your team needs to operate at full speed.
+            One intelligent platform for CRM, tasks, invoicing, and analytics.
+            Everything your team needs, from day one.
           </p>
 
           <div className={styles.authFeatures}>
@@ -120,8 +121,8 @@ export default function LoginForm() {
         <div className={styles.authCard}>
 
           <div className={styles.authCardHeader}>
-            <h2 className={styles.authCardTitle}>Welcome back</h2>
-            <p className={styles.authCardSub}>Sign in to your account to continue.</p>
+            <h2 className={styles.authCardTitle}>Sign In</h2>
+            <p className={styles.authCardSub}>Welcome back! Enter your details to continue.</p>
           </div>
 
           <div className={styles.authTabs}>
@@ -162,7 +163,7 @@ export default function LoginForm() {
             {error && <p className={styles.errorMsg}>{error}</p>}
 
             <button type="submit" className={styles.btnSubmit} disabled={loading}>
-              {loading ? 'Signing in…' : 'Sign in →'}
+              {loading ? 'Signing in…' : <>Sign in <ArrowRight /></>}
             </button>
           </form>
 
@@ -175,12 +176,20 @@ export default function LoginForm() {
 
           <p className={styles.authFooterText}>
             Don&apos;t have an account?{' '}
-            <Link href="/signup">Create one free</Link>
+            <Link href="/signup">Sign up free</Link>
           </p>
         </div>
       </div>
 
     </div>
+  )
+}
+
+function ArrowRight() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
   )
 }
 
