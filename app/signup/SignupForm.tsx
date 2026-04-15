@@ -49,7 +49,6 @@ export default function SignupForm() {
       return
     }
 
-    // Upsert profile row (the DB trigger also handles this; this is a fallback)
     if (data.user) {
       await supabase.from('profiles').upsert({
         id: data.user.id,
@@ -74,136 +73,212 @@ export default function SignupForm() {
   }
 
   return (
-    <div className={styles.authCard}>
-      <div className={styles.authLogo}>
-        <Image
-          src="/brand_logo_page/Brand LOGO.jpg"
-          alt="Operra"
-          width={72}
-          height={72}
-          style={{ height: 72, width: 'auto', objectFit: 'contain' }}
-        />
-      </div>
+    <div className={styles.authSplit}>
 
-      <div className={styles.authTabs}>
-        <Link href="/login" className={styles.authTab}>Sign in</Link>
-        <Link href="/signup" className={`${styles.authTab} ${styles.authTabActive}`}>Create account</Link>
-      </div>
+      {/* ── LEFT PANEL ── */}
+      <div className={styles.authLeft}>
+        <div className={styles.authLeftDecor1} />
+        <div className={styles.authLeftDecor2} />
+        <div className={styles.authLeftDecor3} />
 
-      {success ? (
-        <div className={styles.successMsg}>
-          <span>🎉</span>
-          <p>Account created! Redirecting to your dashboard…</p>
+        <div className={styles.authLeftTop}>
+          <Image
+            src="/brand_logo_page/Brand LOGO.jpg"
+            alt="Operra"
+            width={40}
+            height={40}
+            style={{ height: 40, width: 'auto', objectFit: 'contain', borderRadius: 8 }}
+          />
+          <span className={styles.authLeftBrand}>Operra</span>
         </div>
-      ) : (
-        <form onSubmit={handleSignup} className={styles.form}>
-          <div className={styles.formGroup}>
-            <label htmlFor="fullName">Full name</label>
-            <input
-              id="fullName"
-              type="text"
-              placeholder="Jane Smith"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              required
-              autoComplete="name"
-            />
+
+        <div className={styles.authLeftContent}>
+          <div className={styles.authLeftBadge}>
+            <span className={styles.authLeftBadgeDot} />
+            Free — No credit card needed
           </div>
 
-          <div className={styles.formGroup}>
-            <label htmlFor="email">Work email</label>
-            <input
-              id="email"
-              type="email"
-              placeholder="you@company.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              autoComplete="email"
-            />
+          <h1 className={styles.authLeftHeading}>
+            Join 8,400+<br />
+            <span>growing teams.</span>
+          </h1>
+
+          <p className={styles.authLeftSub}>
+            Get your entire business running in one platform.
+            Start free and be operational in under a day.
+          </p>
+
+          <div className={styles.authFeatures}>
+            {[
+              { icon: '🚀', text: 'Up and running in under a day' },
+              { icon: '🔒', text: 'Enterprise-grade security & privacy' },
+              { icon: '🔗', text: 'Connects to tools you already use' },
+              { icon: '💬', text: 'Dedicated onboarding support' },
+            ].map((f) => (
+              <div className={styles.authFeatureItem} key={f.text}>
+                <div className={styles.authFeatureIcon}>{f.icon}</div>
+                <span className={styles.authFeatureText}>{f.text}</span>
+              </div>
+            ))}
           </div>
 
-          <div className={styles.formGroup}>
-            <label htmlFor="company">
-              Company name <span className={styles.optional}>optional</span>
-            </label>
-            <input
-              id="company"
-              type="text"
-              placeholder="Acme Inc."
-              value={company}
-              onChange={(e) => setCompany(e.target.value)}
-              autoComplete="organization"
-            />
+          <div className={styles.authStats}>
+            <div className={styles.authStat}>
+              <div className={styles.authStatValue}>$0</div>
+              <div className={styles.authStatLabel}>To Start</div>
+            </div>
+            <div className={styles.authStatDivider} />
+            <div className={styles.authStat}>
+              <div className={styles.authStatValue}>4h</div>
+              <div className={styles.authStatLabel}>To Launch</div>
+            </div>
+            <div className={styles.authStatDivider} />
+            <div className={styles.authStat}>
+              <div className={styles.authStatValue}>40%</div>
+              <div className={styles.authStatLabel}>Less Admin</div>
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.authLeftFooter}>
+          <Link href="/" className={styles.authBackLink}>
+            ← Back to home
+          </Link>
+          <span>© 2025 Operra</span>
+        </div>
+      </div>
+
+      {/* ── RIGHT PANEL ── */}
+      <div className={styles.authRight}>
+        <div className={styles.authCard}>
+
+          <div className={styles.authCardHeader}>
+            <h2 className={styles.authCardTitle}>Create account</h2>
+            <p className={styles.authCardSub}>Start for free — no credit card required.</p>
           </div>
 
-          <div className={styles.formGroup}>
-            <label htmlFor="phone">
-              Phone number <span className={styles.optional}>optional</span>
-            </label>
-            <input
-              id="phone"
-              type="tel"
-              placeholder="+1 555 000 0000"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              autoComplete="tel"
-            />
+          <div className={styles.authTabs}>
+            <Link href="/login" className={styles.authTab}>Sign in</Link>
+            <Link href="/signup" className={`${styles.authTab} ${styles.authTabActive}`}>Create account</Link>
           </div>
 
-          <div className={styles.formGroup}>
-            <label htmlFor="password">Password</label>
-            <input
-              id="password"
-              type="password"
-              placeholder="Min. 8 characters"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              minLength={8}
-              autoComplete="new-password"
-            />
-          </div>
+          {success ? (
+            <div className={styles.successMsg}>
+              <span>🎉</span>
+              <p>Account created! Redirecting to your dashboard…</p>
+            </div>
+          ) : (
+            <form onSubmit={handleSignup} className={styles.form}>
+              <div className={styles.formGroup}>
+                <label htmlFor="fullName">Full name</label>
+                <input
+                  id="fullName"
+                  type="text"
+                  placeholder="Jane Smith"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  required
+                  autoComplete="name"
+                />
+              </div>
 
-          <div className={styles.formGroup}>
-            <label htmlFor="confirmPassword">Confirm password</label>
-            <input
-              id="confirmPassword"
-              type="password"
-              placeholder="Re-enter your password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-              autoComplete="new-password"
-            />
-            {passwordMismatch && (
-              <p className={styles.hintMsg}>Passwords do not match</p>
-            )}
-          </div>
+              <div className={styles.formGroup}>
+                <label htmlFor="email">Work email</label>
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="you@company.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  autoComplete="email"
+                />
+              </div>
 
-          {error && <p className={styles.errorMsg}>{error}</p>}
+              <div className={styles.formGroup}>
+                <label htmlFor="company">
+                  Company name <span className={styles.optional}>optional</span>
+                </label>
+                <input
+                  id="company"
+                  type="text"
+                  placeholder="Acme Inc."
+                  value={company}
+                  onChange={(e) => setCompany(e.target.value)}
+                  autoComplete="organization"
+                />
+              </div>
 
-          <button
-            type="submit"
-            className={styles.btnSubmit}
-            disabled={loading || passwordMismatch}
-          >
-            {loading ? 'Creating account…' : 'Create free account'}
+              <div className={styles.formGroup}>
+                <label htmlFor="phone">
+                  Phone number <span className={styles.optional}>optional</span>
+                </label>
+                <input
+                  id="phone"
+                  type="tel"
+                  placeholder="+1 555 000 0000"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  autoComplete="tel"
+                />
+              </div>
+
+              <div className={styles.formGroup}>
+                <label htmlFor="password">Password</label>
+                <input
+                  id="password"
+                  type="password"
+                  placeholder="Min. 8 characters"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  minLength={8}
+                  autoComplete="new-password"
+                />
+              </div>
+
+              <div className={styles.formGroup}>
+                <label htmlFor="confirmPassword">Confirm password</label>
+                <input
+                  id="confirmPassword"
+                  type="password"
+                  placeholder="Re-enter your password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                  autoComplete="new-password"
+                />
+                {passwordMismatch && (
+                  <p className={styles.hintMsg}>Passwords do not match</p>
+                )}
+              </div>
+
+              {error && <p className={styles.errorMsg}>{error}</p>}
+
+              <button
+                type="submit"
+                className={styles.btnSubmit}
+                disabled={loading || passwordMismatch}
+              >
+                {loading ? 'Creating account…' : 'Create free account →'}
+              </button>
+            </form>
+          )}
+
+          <div className={styles.divider}>or</div>
+
+          <button type="button" className={styles.btnGoogle} onClick={handleGoogleSignup}>
+            <GoogleIcon />
+            Sign up with Google
           </button>
-        </form>
-      )}
 
-      <div className={styles.divider}>or</div>
+          <p className={styles.authFooterText}>
+            Already have an account?{' '}
+            <Link href="/login">Sign in</Link>
+          </p>
+        </div>
+      </div>
 
-      <button type="button" className={styles.btnGoogle} onClick={handleGoogleSignup}>
-        <GoogleIcon />
-        Continue with Google
-      </button>
-
-      <p className={styles.authFooterText}>
-        Already have an account?{' '}
-        <Link href="/login">Sign in</Link>
-      </p>
     </div>
   )
 }

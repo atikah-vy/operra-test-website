@@ -40,66 +40,146 @@ export default function LoginForm() {
   }
 
   return (
-    <div className={styles.authCard}>
-      <div className={styles.authLogo}>
-        <Image
-          src="/brand_logo_page/Brand LOGO.jpg"
-          alt="Operra"
-          width={80}
-          height={80}
-          style={{ height: 80, width: 'auto', objectFit: 'contain' }}
-        />
-      </div>
+    <div className={styles.authSplit}>
 
-      <div className={styles.authTabs}>
-        <Link href="/login" className={`${styles.authTab} ${styles.authTabActive}`}>Sign in</Link>
-        <Link href="/signup" className={styles.authTab}>Create account</Link>
-      </div>
+      {/* ── LEFT PANEL ── */}
+      <div className={styles.authLeft}>
+        <div className={styles.authLeftDecor1} />
+        <div className={styles.authLeftDecor2} />
+        <div className={styles.authLeftDecor3} />
 
-      <form onSubmit={handleEmailLogin} className={styles.form}>
-        <div className={styles.formGroup}>
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            placeholder="you@company.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            autoComplete="email"
+        <div className={styles.authLeftTop}>
+          <Image
+            src="/brand_logo_page/Brand LOGO.jpg"
+            alt="Operra"
+            width={40}
+            height={40}
+            style={{ height: 40, width: 'auto', objectFit: 'contain', borderRadius: 8 }}
           />
-        </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            placeholder="••••••••"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            autoComplete="current-password"
-          />
+          <span className={styles.authLeftBrand}>Operra</span>
         </div>
 
-        {error && <p className={styles.errorMsg}>{error}</p>}
+        <div className={styles.authLeftContent}>
+          <div className={styles.authLeftBadge}>
+            <span className={styles.authLeftBadgeDot} />
+            Now in Public Beta
+          </div>
 
-        <button type="submit" className={styles.btnSubmit} disabled={loading}>
-          {loading ? 'Signing in…' : 'Sign in'}
-        </button>
-      </form>
+          <h1 className={styles.authLeftHeading}>
+            Your business,<br />
+            <span>one system.</span>
+          </h1>
 
-      <div className={styles.divider}>or</div>
+          <p className={styles.authLeftSub}>
+            CRM, tasks, invoicing, and analytics — unified from day one.
+            Everything your team needs to operate at full speed.
+          </p>
 
-      <button type="button" className={styles.btnGoogle} onClick={handleGoogleLogin}>
-        <GoogleIcon />
-        Continue with Google
-      </button>
+          <div className={styles.authFeatures}>
+            {[
+              { icon: '📊', text: 'Real-time dashboard & analytics' },
+              { icon: '👥', text: 'CRM & customer pipeline' },
+              { icon: '✅', text: 'Tasks, projects & collaboration' },
+              { icon: '🧾', text: 'Invoicing & payment tracking' },
+            ].map((f) => (
+              <div className={styles.authFeatureItem} key={f.text}>
+                <div className={styles.authFeatureIcon}>{f.icon}</div>
+                <span className={styles.authFeatureText}>{f.text}</span>
+              </div>
+            ))}
+          </div>
 
-      <p className={styles.authFooterText}>
-        No account?{' '}
-        <Link href="/signup">Create one free</Link>
-      </p>
+          <div className={styles.authStats}>
+            <div className={styles.authStat}>
+              <div className={styles.authStatValue}>8,400+</div>
+              <div className={styles.authStatLabel}>Teams</div>
+            </div>
+            <div className={styles.authStatDivider} />
+            <div className={styles.authStat}>
+              <div className={styles.authStatValue}>99.9%</div>
+              <div className={styles.authStatLabel}>Uptime</div>
+            </div>
+            <div className={styles.authStatDivider} />
+            <div className={styles.authStat}>
+              <div className={styles.authStatValue}>$0</div>
+              <div className={styles.authStatLabel}>To Start</div>
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.authLeftFooter}>
+          <Link href="/" className={styles.authBackLink}>
+            ← Back to home
+          </Link>
+          <span>© 2025 Operra</span>
+        </div>
+      </div>
+
+      {/* ── RIGHT PANEL ── */}
+      <div className={styles.authRight}>
+        <div className={styles.authCard}>
+
+          <div className={styles.authCardHeader}>
+            <h2 className={styles.authCardTitle}>Welcome back</h2>
+            <p className={styles.authCardSub}>Sign in to your account to continue.</p>
+          </div>
+
+          <div className={styles.authTabs}>
+            <Link href="/login" className={`${styles.authTab} ${styles.authTabActive}`}>Sign in</Link>
+            <Link href="/signup" className={styles.authTab}>Create account</Link>
+          </div>
+
+          <form onSubmit={handleEmailLogin} className={styles.form}>
+            <div className={styles.formGroup}>
+              <label htmlFor="email">Email address</label>
+              <input
+                id="email"
+                type="email"
+                placeholder="you@company.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoComplete="email"
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <div className={styles.formLabelRow}>
+                <label htmlFor="password">Password</label>
+                <a href="#" className={styles.forgotLink}>Forgot password?</a>
+              </div>
+              <input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="current-password"
+              />
+            </div>
+
+            {error && <p className={styles.errorMsg}>{error}</p>}
+
+            <button type="submit" className={styles.btnSubmit} disabled={loading}>
+              {loading ? 'Signing in…' : 'Sign in →'}
+            </button>
+          </form>
+
+          <div className={styles.divider}>or</div>
+
+          <button type="button" className={styles.btnGoogle} onClick={handleGoogleLogin}>
+            <GoogleIcon />
+            Sign in with Google
+          </button>
+
+          <p className={styles.authFooterText}>
+            Don&apos;t have an account?{' '}
+            <Link href="/signup">Create one free</Link>
+          </p>
+        </div>
+      </div>
+
     </div>
   )
 }
