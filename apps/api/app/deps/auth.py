@@ -87,36 +87,48 @@ async def get_current_auth(
         # Misconfigured JWKS — surface as 503 so ops can see it distinctly
         raise HTTPException(status_code=503, detail=str(exc)) from exc
 
-    # Find local user record
+    # Resolve org: prefer JWT/header org, fall back to the default org (no-org mode)
+    active_clerk_org = x_org_id or claims.clerk_org_id
+    if active_clerk_org:
+        org = (
+            await session.execute(
+                select(Organization).where(Organization.clerk_organization_id == active_clerk_org)
+            )
+        ).scalar_one_or_none()
+        if org is None:
+            raise HTTPException(status_code=403, detail="Organization not provisioned.")
+    else:
+        # No org in token — fall back to the default org (single-org / no-org mode)
+        org = (
+            await session.execute(
+                select(Organization).where(Organization.slug == "default")
+            )
+        ).scalar_one_or_none()
+        if org is None:
+            raise HTTPException(
+                status_code=403,
+                detail="No default organization found. Run the seed script first.",
+            )
+
+    # Find local user — auto-provision on first login if using default org
     user = (
         await session.execute(
             select(User).where(User.clerk_user_id == claims.clerk_user_id)
         )
     ).scalar_one_or_none()
     if user is None:
-        raise HTTPException(
-            status_code=403,
-            detail=(
-                "User not provisioned locally. "
-                "Ensure the Clerk webhook is forwarding user.created events."
-            ),
+        import uuid as _uuid
+        user = User(
+            id=_uuid.uuid4(),
+            clerk_user_id=claims.clerk_user_id,
+            organization_id=org.id,
+            email=claims.email or f"{claims.clerk_user_id}@clerk.local",
+            first_name="",
+            last_name="",
+            role=UserRole.OWNER,
         )
-
-    # Prefer explicit X-Org-Id (web sends the active org), fall back to token
-    active_clerk_org = x_org_id or claims.clerk_org_id
-    if not active_clerk_org:
-        raise HTTPException(
-            status_code=403,
-            detail="No active organization selected. Use the organization switcher.",
-        )
-
-    org = (
-        await session.execute(
-            select(Organization).where(Organization.clerk_organization_id == active_clerk_org)
-        )
-    ).scalar_one_or_none()
-    if org is None:
-        raise HTTPException(status_code=403, detail="Organization not provisioned.")
+        session.add(user)
+        await session.flush()
 
     if user.organization_id != org.id:
         # Users are scoped to an org locally; if user switches org in Clerk we'd need

@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { OrganizationSwitcher, UserButton } from "@clerk/nextjs"
+import { UserButton } from "@clerk/nextjs"
 import {
   LayoutDashboard,
   Users,
@@ -51,12 +51,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
         {/* Top bar */}
         <header className="flex h-16 items-center justify-between border-b border-slate-200 bg-white px-4 sm:px-6">
           <div className="flex items-center gap-4">
-            <OrganizationSwitcher
-              afterCreateOrganizationUrl="/dashboard"
-              afterSelectOrganizationUrl="/dashboard"
-              hidePersonal
-              appearance={{ elements: { organizationSwitcherTrigger: "py-1.5 px-3" } }}
-            />
+            <span className="text-sm font-medium text-slate-700">Operra</span>
           </div>
           <div className="flex items-center gap-4">
             <input

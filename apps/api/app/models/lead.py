@@ -38,7 +38,7 @@ class Lead(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     source: Mapped[str] = mapped_column(String(50), nullable=False, default="unknown")
     message: Mapped[str | None] = mapped_column(String(2000))
     status: Mapped[LeadStatus] = mapped_column(
-        SAEnum(LeadStatus, name="lead_status"), nullable=False, default=LeadStatus.NEW
+        SAEnum(LeadStatus, name="lead_status", values_callable=lambda obj: [e.value for e in obj]), nullable=False, default=LeadStatus.NEW
     )
     apollo_enrichment_data: Mapped[dict[str, Any] | None] = mapped_column(JSONType, nullable=True)
     attio_record_id: Mapped[str | None] = mapped_column(String(255))

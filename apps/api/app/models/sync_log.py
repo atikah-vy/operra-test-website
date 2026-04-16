@@ -34,7 +34,7 @@ class SyncLog(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     entity_id: Mapped[str | None] = mapped_column(String(255))
     duration_ms: Mapped[int | None] = mapped_column(Integer)
     status: Mapped[SyncLogStatus] = mapped_column(
-        SAEnum(SyncLogStatus, name="sync_log_status"), nullable=False
+        SAEnum(SyncLogStatus, name="sync_log_status", values_callable=lambda obj: [e.value for e in obj]), nullable=False
     )
     request_payload: Mapped[dict[str, Any] | None] = mapped_column(JSONType)
     response_payload: Mapped[dict[str, Any] | None] = mapped_column(JSONType)

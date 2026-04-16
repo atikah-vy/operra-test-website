@@ -38,16 +38,6 @@ sync_log_status = sa.Enum("success", "failure", "partial", name="sync_log_status
 
 
 def upgrade() -> None:
-    # Create enums first
-    user_role.create(op.get_bind(), checkfirst=True)
-    lead_status.create(op.get_bind(), checkfirst=True)
-    client_status.create(op.get_bind(), checkfirst=True)
-    invoice_status.create(op.get_bind(), checkfirst=True)
-    booking_status.create(op.get_bind(), checkfirst=True)
-    social_post_status.create(op.get_bind(), checkfirst=True)
-    webhook_event_status.create(op.get_bind(), checkfirst=True)
-    sync_log_status.create(op.get_bind(), checkfirst=True)
-
     op.create_table(
         "organizations",
         sa.Column("id", pg.UUID(as_uuid=True), primary_key=True),

@@ -41,7 +41,7 @@ class Booking(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     start_time: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, index=True)
     end_time: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
     status: Mapped[BookingStatus] = mapped_column(
-        SAEnum(BookingStatus, name="booking_status"),
+        SAEnum(BookingStatus, name="booking_status", values_callable=lambda obj: [e.value for e in obj]),
         nullable=False,
         default=BookingStatus.CONFIRMED,
     )

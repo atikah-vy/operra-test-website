@@ -100,6 +100,7 @@ async def main() -> None:
                     status=status,
                 )
             )
+        await session.flush()
 
         # Clients
         client_id = uuid.uuid4()
@@ -115,6 +116,7 @@ async def main() -> None:
                 status=ClientStatus.ACTIVE,
             )
         )
+        await session.flush()
 
         # Invoices
         now = datetime.now(tz=timezone.utc)

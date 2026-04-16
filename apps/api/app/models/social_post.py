@@ -36,7 +36,7 @@ class SocialPost(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     scheduled_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     published_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     status: Mapped[SocialPostStatus] = mapped_column(
-        SAEnum(SocialPostStatus, name="social_post_status"),
+        SAEnum(SocialPostStatus, name="social_post_status", values_callable=lambda obj: [e.value for e in obj]),
         nullable=False,
         default=SocialPostStatus.DRAFT,
     )

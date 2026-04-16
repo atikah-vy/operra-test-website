@@ -38,7 +38,7 @@ export default async function OverviewPage() {
         <StatCard label="Active Clients" value={stats?.clients_active ?? "—"} />
         <StatCard
           label="Revenue (month)"
-          value={stats ? `${stats.currency} ${stats.revenue_month.toLocaleString()}` : "—"}
+          value={stats?.revenue_month != null ? `${stats.currency} ${stats.revenue_month.toLocaleString()}` : "—"}
         />
         <StatCard label="Upcoming Bookings" value={stats?.upcoming_bookings ?? "—"} />
       </div>

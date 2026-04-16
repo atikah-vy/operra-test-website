@@ -35,7 +35,7 @@ class WebhookEvent(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     external_id: Mapped[str] = mapped_column(String(255), nullable=False)
     payload: Mapped[dict[str, Any]] = mapped_column(JSONType, nullable=False)
     status: Mapped[WebhookEventStatus] = mapped_column(
-        SAEnum(WebhookEventStatus, name="webhook_event_status"),
+        SAEnum(WebhookEventStatus, name="webhook_event_status", values_callable=lambda obj: [e.value for e in obj]),
         nullable=False,
         default=WebhookEventStatus.PENDING,
     )

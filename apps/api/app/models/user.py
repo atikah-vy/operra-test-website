@@ -34,5 +34,5 @@ class User(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     first_name: Mapped[str | None] = mapped_column(String(100), nullable=True)
     last_name: Mapped[str | None] = mapped_column(String(100), nullable=True)
     role: Mapped[UserRole] = mapped_column(
-        SAEnum(UserRole, name="user_role"), nullable=False, default=UserRole.ADMIN
+        SAEnum(UserRole, name="user_role", values_callable=lambda obj: [e.value for e in obj]), nullable=False, default=UserRole.ADMIN
     )

@@ -55,7 +55,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── AUTH PAGE WRAPPER (unused — layout handled by authSplit) ── */
+/* ── CLERK — hide "Last used" badge and development notice ── */
+.cl-badge,
+[data-localization-key="badge__lastUsed"],
+.cl-internal-b3fm6y {
+  display: none !important;
+}
 
 /* ── BUTTONS ── */
 .btn {

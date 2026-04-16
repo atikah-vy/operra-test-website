@@ -40,7 +40,7 @@ class Invoice(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     amount: Mapped[Decimal] = mapped_column(Numeric(14, 2), nullable=False, default=0)
     currency: Mapped[str] = mapped_column(String(3), nullable=False, default="MYR")
     status: Mapped[InvoiceStatus] = mapped_column(
-        SAEnum(InvoiceStatus, name="invoice_status"), nullable=False, default=InvoiceStatus.DRAFT
+        SAEnum(InvoiceStatus, name="invoice_status", values_callable=lambda obj: [e.value for e in obj]), nullable=False, default=InvoiceStatus.DRAFT
     )
     line_items: Mapped[list[dict[str, Any]]] = mapped_column(
         JSONType, nullable=False, default=list

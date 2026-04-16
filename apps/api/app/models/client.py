@@ -37,6 +37,6 @@ class Client(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     contact_email: Mapped[str | None] = mapped_column(String(320))
     contact_phone: Mapped[str | None] = mapped_column(String(50))
     status: Mapped[ClientStatus] = mapped_column(
-        SAEnum(ClientStatus, name="client_status"), nullable=False, default=ClientStatus.ACTIVE
+        SAEnum(ClientStatus, name="client_status", values_callable=lambda obj: [e.value for e in obj]), nullable=False, default=ClientStatus.ACTIVE
     )
     attio_record_id: Mapped[str | None] = mapped_column(String(255))
