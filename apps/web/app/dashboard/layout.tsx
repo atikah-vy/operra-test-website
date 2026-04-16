@@ -1,30 +1,8 @@
 import Link from "next/link"
 import { UserButton } from "@clerk/nextjs"
-import {
-  LayoutDashboard,
-  Users,
-  UserCheck,
-  Calendar,
-  Share2,
-  Receipt,
-  Zap,
-  Settings,
-  Bell,
-  Search,
-} from "lucide-react"
+import { Bell, Search } from "lucide-react"
 import { requireAuth } from "@/lib/auth"
 import { NavLinks } from "@/components/dashboard/NavLinks"
-
-const navItems = [
-  { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
-  { href: "/dashboard/leads", label: "Leads", icon: Users },
-  { href: "/dashboard/clients", label: "Clients", icon: UserCheck },
-  { href: "/dashboard/calendar", label: "Calendar", icon: Calendar },
-  { href: "/dashboard/social", label: "Social", icon: Share2 },
-  { href: "/dashboard/finance", label: "Finance", icon: Receipt },
-  { href: "/dashboard/automations", label: "Automations", icon: Zap },
-  { href: "/dashboard/settings", label: "Settings", icon: Settings },
-]
 
 export default async function DashboardLayout({
   children,
@@ -48,7 +26,7 @@ export default async function DashboardLayout({
         </div>
 
         {/* Nav links with active state */}
-        <NavLinks items={navItems} />
+        <NavLinks />
 
         {/* Bottom user area */}
         <div className="border-t border-[#E2E8F0] p-3">

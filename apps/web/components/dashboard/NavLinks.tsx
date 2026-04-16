@@ -2,20 +2,34 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import type { LucideIcon } from "lucide-react"
+import {
+  LayoutDashboard,
+  Users,
+  UserCheck,
+  Calendar,
+  Share2,
+  Receipt,
+  Zap,
+  Settings,
+} from "lucide-react"
 
-export interface NavItem {
-  href: string
-  label: string
-  icon: LucideIcon
-}
+const navItems = [
+  { href: "/dashboard",             label: "Overview",    icon: LayoutDashboard },
+  { href: "/dashboard/leads",       label: "Leads",       icon: Users },
+  { href: "/dashboard/clients",     label: "Clients",     icon: UserCheck },
+  { href: "/dashboard/calendar",    label: "Calendar",    icon: Calendar },
+  { href: "/dashboard/social",      label: "Social",      icon: Share2 },
+  { href: "/dashboard/finance",     label: "Finance",     icon: Receipt },
+  { href: "/dashboard/automations", label: "Automations", icon: Zap },
+  { href: "/dashboard/settings",    label: "Settings",    icon: Settings },
+]
 
-export function NavLinks({ items }: { items: NavItem[] }) {
+export function NavLinks() {
   const pathname = usePathname()
 
   return (
     <nav className="flex flex-1 flex-col gap-0.5 p-3">
-      {items.map(({ href, label, icon: Icon }) => {
+      {navItems.map(({ href, label, icon: Icon }) => {
         const isActive =
           pathname === href ||
           (href !== "/dashboard" && pathname.startsWith(href))
