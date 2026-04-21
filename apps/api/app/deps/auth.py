@@ -87,7 +87,9 @@ async def get_current_auth(
         # Misconfigured JWKS — surface as 503 so ops can see it distinctly
         raise HTTPException(status_code=503, detail=str(exc)) from exc
 
-    # Resolve org: prefer JWT/header org, fall back to the default org (no-org mode)
+    import uuid as _uuid
+
+    # Resolve org: prefer JWT/header org, fall back to a personal org per user
     active_clerk_org = x_org_id or claims.clerk_org_id
     if active_clerk_org:
         org = (
@@ -98,26 +100,35 @@ async def get_current_auth(
         if org is None:
             raise HTTPException(status_code=403, detail="Organization not provisioned.")
     else:
-        # No org in token — fall back to the default org (single-org / no-org mode)
+        # No org in token — use a personal org scoped to this specific user.
+        # This ensures users never share data with each other.
+        personal_clerk_org_id = f"personal_{claims.clerk_user_id}"
         org = (
             await session.execute(
-                select(Organization).where(Organization.slug == "default")
+                select(Organization).where(
+                    Organization.clerk_organization_id == personal_clerk_org_id
+                )
             )
         ).scalar_one_or_none()
         if org is None:
-            raise HTTPException(
-                status_code=403,
-                detail="No default organization found. Run the seed script first.",
+            # Auto-provision a personal org on first login
+            org = Organization(
+                id=_uuid.uuid4(),
+                clerk_organization_id=personal_clerk_org_id,
+                name=f"Personal ({claims.email or claims.clerk_user_id})",
+                slug=f"personal-{claims.clerk_user_id}",
+                plan="free",
             )
+            session.add(org)
+            await session.flush()
 
-    # Find local user — auto-provision on first login if using default org
+    # Find local user — auto-provision on first login
     user = (
         await session.execute(
             select(User).where(User.clerk_user_id == claims.clerk_user_id)
         )
     ).scalar_one_or_none()
     if user is None:
-        import uuid as _uuid
         user = User(
             id=_uuid.uuid4(),
             clerk_user_id=claims.clerk_user_id,
