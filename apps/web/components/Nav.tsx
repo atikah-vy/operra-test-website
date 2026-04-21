@@ -35,10 +35,10 @@ export default function Nav() {
           </Link>
 
           <ul className={styles.navLinks}>
-            <li><a href="/#features">Platform</a></li>
-            <li><a href="/#modules">Modules</a></li>
-            <li><a href="/#how-it-works">How It Works</a></li>
-            <li><a href="/#compare">Compare</a></li>
+            <li><Link href="/#features">Platform</Link></li>
+            <li><Link href="/#modules">Modules</Link></li>
+            <li><Link href="/#how-it-works">How It Works</Link></li>
+            <li><Link href="/#compare">Compare</Link></li>
             <li><Link href="/dashboard">Dashboard</Link></li>
           </ul>
 
@@ -67,10 +67,10 @@ export default function Nav() {
       </nav>
 
       <div className={`${styles.mobileMenu} ${open ? styles.mobileMenuOpen : ''}`}>
-        <a href="/#features" className={styles.mobileLink} onClick={close}>Platform</a>
-        <a href="/#modules" className={styles.mobileLink} onClick={close}>Modules</a>
-        <a href="/#how-it-works" className={styles.mobileLink} onClick={close}>How It Works</a>
-        <a href="/#compare" className={styles.mobileLink} onClick={close}>Compare</a>
+        <Link href="/#features" className={styles.mobileLink} onClick={close}>Platform</Link>
+        <Link href="/#modules" className={styles.mobileLink} onClick={close}>Modules</Link>
+        <Link href="/#how-it-works" className={styles.mobileLink} onClick={close}>How It Works</Link>
+        <Link href="/#compare" className={styles.mobileLink} onClick={close}>Compare</Link>
         <Link href="/dashboard" className={styles.mobileLink} onClick={close}>Dashboard</Link>
         <div className={styles.mobileDivider} />
         <SignedOut>

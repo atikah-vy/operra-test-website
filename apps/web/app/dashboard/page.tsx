@@ -49,7 +49,7 @@ export default async function OverviewPage() {
           <p className="text-sm font-medium text-[#60A5FA]">Welcome back 👋</p>
           <h1 className="mt-1 text-2xl font-bold text-white">Good to see you.</h1>
           <p className="mt-1 text-sm text-[#94A3B8]">
-            Here's a live snapshot of your pipeline, clients, and revenue.
+            Here&apos;s a live snapshot of your pipeline, clients, and revenue.
           </p>
         </div>
 
