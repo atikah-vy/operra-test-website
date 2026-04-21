@@ -14,12 +14,14 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
 WORKDIR /app
 
-# Install dependencies first (better caching)
+# Install dependencies first (better layer caching) — skip building the local
+# package itself so hatchling doesn't complain about README.md not existing yet.
 COPY pyproject.toml uv.lock* ./
-RUN uv sync --frozen --no-dev || uv sync --no-dev
+RUN uv sync --frozen --no-dev --no-install-project || uv sync --no-dev --no-install-project
 
-# Copy app source
+# Copy full source and install the project
 COPY . .
+RUN uv sync --frozen --no-dev || uv sync --no-dev
 
 EXPOSE 8000
 
