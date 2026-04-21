@@ -27,4 +27,5 @@ EXPOSE 8000
 
 # Default command runs the API; override to run the worker:
 #   command: ["uv", "run", "arq", "app.jobs.worker.WorkerSettings"]
-CMD ["uv", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Railway injects $PORT — use it if set, otherwise fall back to 8000
+CMD ["sh", "-c", "uv run uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
